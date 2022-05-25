@@ -2,6 +2,12 @@
 
 This repository contains a reproduction of a startup issue with Vitest.
 
+Table of Contents
+
+- [Setup](#setup)
+- [Reproduction](#reproduction)
+- [Fix](#fix)
+
 ## Setup
 
 1. Make sure you have [Nix](https://nixos.org) installed and have [nix-direnv](https://github.com/nix-community/nix-direnv) enabled.
@@ -58,4 +64,24 @@ direnv deny
 rm -r .direnv
 
 npx vitest
+```
+
+## Fix
+
+To resolve this issue, tell Vite _and_ Vitest to ignore the `.direnv` directory.
+
+```ts
+import { defineConfig } from "vite";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+	server: {
+		watch: {
+			ignored: ["**/.direnv"],
+		},
+	},
+	test: {
+		exclude: [".direnv"],
+	},
+});
 ```
